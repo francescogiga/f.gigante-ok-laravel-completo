@@ -1,0 +1,47 @@
+/* header home page*/
+.header {
+    background-image: url('/media/header.jpeg');
+    height: 95vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.text-color{
+    text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6) ;
+}
+
+/* pagina contatti */
+
+.box{
+    border: dotted white 2px;
+    min-height: 250px;
+    max-width: 250px;
+    transition: all 0.5s;
+    cursor: pointer;
+    ;
+}
+.box:hover{
+    border: 3px solid white;
+    transform: translateY(-10px);
+}
+.icon{
+    font-size: 50px;
+}
+
+.userHeight{
+    height: 70vh;
+}
+
+.movies{
+      background-image: url('/media/header.jpeg');
+    min-height: 95vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.cardImg{
+    height: 250px;
+    object-position: center;
+}
