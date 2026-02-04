@@ -1,6 +1,6 @@
 /* header home page*/
 .header {
-    background-image: url('/media/header.jpeg');
+    background-image: url('../../public/media/header.jpeg');
     height: 95vh;
     background-position: center;
     background-repeat: no-repeat;
@@ -33,7 +33,7 @@
 }
 
 .movies{
-      background-image: url('/media/header.jpeg');
+      background-image: url('../../public/media/header.jpeg');
     min-height: 95vh;
     background-position: center;
     background-repeat: no-repeat;

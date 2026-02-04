@@ -10,16 +10,19 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ContactMail extends Mailable implements ShouldQueue
+class ContactMail extends Mailable //implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public array $user_contact;
+    public $user_contact;
 
-    public function __construct(array $user_contact)
+    public function __construct($userData)
     {
-        $this->user_contact = $user_contact;
+        $this->user_contact = $userData;
+
+        
     }
+    
 
     public function envelope(): Envelope
     {
