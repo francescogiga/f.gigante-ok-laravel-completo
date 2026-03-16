@@ -1,25 +1,15 @@
 <x-layout>
-    <div class="container-fluid">
-        <div class="row">
-            <h2>Inserisci il tuo film preferito</h2>
+    <div class="container-fluid movies">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 text-white text-color">
+            <h2 class="display-4 text-center">Inserisci il tuo film preferito</h2>
         </div>
-        <div class="row justify-content-center ">
-          <div class="col-12 col-md-8">
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-            <form method="post" action="{{ route('movie.submit') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ ) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                      <label for="title" class="form-label">Titolo</label>
-                     <input type="text" name="title" class="form-control" id="title" aria-describedby="titleHelp" value="{{old('title')}}">
+                     <input type="text" name="title" class="form-control" id="title" value="{{$movie->title}}" 
+                     aria-describedby="emailHelp" >
                 </div>
   <div class="mb-3">
    <label for="director" class="form-label">Regista</label>

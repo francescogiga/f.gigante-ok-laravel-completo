@@ -2,49 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MovieRequest;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class MovieController extends Controller
+
+class MovieController extends Controller implements HasMiddleware
 {
-//  public   $movies =[
-       // ['id'=>'1', 'title'=>'e.t..', 'director'=>'S.Spielberg' , 'img'=>'/media/poster/e.t..jpeg', 'genres'=>'sci-fi' ],
-       // ['id'=>'2', 'title'=>'Flashdance', 'director'=>'Thomas Hedley' , 'img'=>'/media/poster/flashdance.jpeg', 'genres'=>'musical-sentimentale' ],
-       // ['id'=>'3', 'title'=>'Matrix', 'director'=>'Lana Wachowski,' , 'img'=>'/media/poster/matrix.jpeg', 'genres'=>'fanta-azione' ],
-       // ['id'=>'4', 'title'=>'Quovado', 'director'=>'G.Nunziante' , 'img'=>'/media/poster/quovado.jpeg', 'genres'=>'commedia' ],
-       // ['id'=>'5', 'title'=>'Titanic', 'director'=>'James Cameron' , 'img'=>'/media/poster/titanic.jpeg', 'genres'=>'drammatico' ],
-   // ];
-
+    public function __construct()
+    {
+        // $this->middleware('auth')->except('index');
+    }  
+     public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('log', only: ['index']),
+           
+        ];
+    } 
     
-    public function movieList(){
-
+    
+    public function index()
+     {
         $movies = Movie::all();
-         return view('movie.movies',['movies' => $movies]); 
-}
+        return view('movie.index',['movie' => $movies]);
+     }
 
-//public function movieDetail($id){
-    //foreach($this->movies as $movie){
-        //if($id == $movie['id']){
-            //return view('movie.movie-detail',['movie'=>$movie]);
-      // }
-    //}
-//}
+      public function create()
+      {
+       return view('movie.create'); 
+      }
+       
 
-public function create(){
-    return view('movie.create');
-}
-
-public function store(Request $request)
+public function store(MovieRequest $request)
 {
     $movie = Movie::create([
         'title' => $request->title,
         'director' => $request->director,
-        'year' => $request -> year,
-        'plot' => $request -> plot
+        'year' => $request->year,
+        'plot' => $request->plot,
+        'img' =>$request->file('img')->store('public/images')
 
     ]);
 
-    return redirect()->route('homepage')->with('successMessage','Hai correttamente inserito il tuo film');
+    return redirect()->route('homepage')->with('successMessage','Hai correttamente inserito il tuo film preferito');
 }
+
+
+    public function movieList()
+    {
+
+        $movies = Movie::all();
+         return view('movie.movies',['movies' => $movies]); 
+    }
+
+
+public function show(Movie $movie)
+{
+    return view('movie.show', compact('movie'));
+}
+
+public function edit(Movie $movie)
+{
+    return view('movie.edit', compact('movie'));
+}
+
 
 }
