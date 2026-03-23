@@ -16,6 +16,11 @@
             {{session('successMessage') }}
         </div>
         @endif
+        @if(session()->has('errorMessage'))
+        <div class="alert alert-danger">
+            {{ session('errorMessage') }}
+        </div>
+        @endif
         <div class="row h-100">
             <div class="col-12 d-flex justify-content-center align-items-center">
             <h1 class= "text-light display-1 fw-bold text-color">MOVIEMANIA</h1>

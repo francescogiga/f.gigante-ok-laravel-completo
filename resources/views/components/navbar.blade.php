@@ -24,7 +24,8 @@
             
             <li><a href="{{ route('movie.create')}}" class="dropdown-item">Inserisci il tuo film</a></li>
             <li><a  href="{{route('movie.index')}}" class="dropdown-item">Tutti i film</a></li>
-            
+            <li><a  href="{{route('genre.create')}}" class="dropdown-item">Aggiungi una categoria</a></li>
+            <li><a  href="{{route('genre.index')}}" class="dropdown-item">Tutte le categorie</a></li>
             
         </ul>
       </li>
@@ -34,6 +35,9 @@
             Ciao,{{ Auth::user()->name}}
           </a>
             <ul class="dropdown-menu"> 
+              <li>
+                <a href="{{ route('user.profile') }}">Profilo personale</a>
+              </li>
             <li>
               <a href="{{ route('logout') }}"
               onclick="event.preventDefault(); document.getElementById('form-logout').submit();"

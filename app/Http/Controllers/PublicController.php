@@ -44,10 +44,16 @@ public function contactUs(Request $request)
     $message =$request->input('message');
     $userData = compact ('user','email','message');
 
-    Mail::to($email)->send(new ContactMail($userData));
-    return redirect(route('homepage'))->with('message','grazie per averci contattato'); 
+    try{
+        Mail::to($email)->send(new ContactMail($userData));
+    } catch (Exception $e){
+        return redirect(route('homepage'))->with('emailError',"C'è stato un problema con l'invio della mail");
+    }
+    return redirect(route('homepage'))->with('emailSent',"Hai correttamente inviato una mail");
 
-
+}
+public function profile(){
+    return view('profile');
 }
 
 
