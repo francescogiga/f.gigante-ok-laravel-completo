@@ -6,7 +6,6 @@ use App\Http\Requests\MovieEditRequest;
 use App\Http\Requests\MovieRequest;
 use App\Models\Genre;
 use App\Models\Movie;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +19,7 @@ class MovieController extends Controller implements HasMiddleware
             // Applica 'auth' a tutto tranne 'index'
             new Middleware('auth', except: ['index']),
             
-            // Applica 'log' solo a 'index'
-            new Middleware('log', only: ['index']),
+           
         ];
     }
     
@@ -29,7 +27,7 @@ class MovieController extends Controller implements HasMiddleware
     public function index()
      {
         $movies = Movie::all();
-        return view('movie.index',['movie' => $movies]);
+        return view('movie.index',['movies' => $movies]);
      }
 
       public function create()
@@ -46,7 +44,7 @@ public function store(MovieRequest $request)
         'director' => $request->director,
         'year' => $request->year,
         'plot' => $request->plot,
-        'img' =>$request->file('img')->store('public/images'),
+        'img' =>$request->file('img')->store('images','public'),
         'user_id'=>Auth::user()->id
 
     ]);
