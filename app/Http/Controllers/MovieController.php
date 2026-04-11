@@ -71,34 +71,46 @@ public function show(Movie $movie)
 public function edit(Movie $movie)
 {
     if($movie->user_id == Auth::user()->id){
-     return view('movie.edit', compact('movie'));   
-    }else{
+        $genres = Genre::all();  // ← aggiungi questa linea
+        return view('movie.edit', compact('movie', 'genres'));  // ← passa anche $genres
+    } else {
         return redirect()->route('homepage')->with('errorMessage', 'non puoi vedere questa pagina');
     }
-    
 }
+
 
 public function update(MovieEditRequest $request, Movie $movie)
 {
     if($movie->user_id == Auth::user()->id){ 
-    $movie->update([
-        $movie->title = $request->title,
-        $movie->director = $request->director,
-        $movie->year = $request->year,
-        $movie->plot = $request->plot,
-
-    ]);
-    if($request->img){
-        $request->validate(['img' => 'image']);
+        
+        // CORREZIONE: sintassi corretta dell'array (chiave => valore)
         $movie->update([
-            $movie->img = $request->file('img')->store('public/image')
+            'title' => $request->title,      
+            'director' => $request->director,
+            'year' => $request->year,
+            'plot' => $request->plot,
         ]);
+        
+        // GESTIONE DEI GENERI (MANY-TO-MANY) 
+        if($request->has('genres')) {
+            $movie->genres()->sync($request->genres);
+        } else {
+            $movie->genres()->sync([]); // se nessun genere selezionato, rimuovi tutti
+        }
+        
+        // GESTIONE IMMAGINE 
+        if($request->hasFile('img')){  // meglio hasFile() invece di solo img
+            $request->validate(['img' => 'image|mimes:jpeg,png,jpg,gif|max:2048']);
+            $movie->update([
+                'img' => $request->file('img')->store('images','public')  
+            ]);
+        }
+        
+        return redirect()->route('homepage')->with('successMessage', 'Hai correttamente modificato il film');
+        
+    } else {
+        return redirect()->route('homepage')->with('errorMessage', 'non puoi vedere questa pagina');
     }
-return redirect()->route('homepage')->with('successMessage', 'Hai correttamente modificato il film');
-}else{
-   return redirect()->route('homepage')->with('errorMessage', 'non puoi vedere questa pagina');
-}
-
 }
 
 public function destroy(Movie $movie)
